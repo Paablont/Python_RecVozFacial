@@ -56,16 +56,16 @@ def print_voices():
 
 def saludo(reconocido):
     hour = datetime.datetime.now()
+    if hour.hour < 6 or hour.hour > 20:
+        momento = 'Buenas noches.'
+    elif 6 <= hour.hour < 13:
+        momento = 'Buenos días.'
+    else:
+        momento = 'Buenas tardes.'
     if reconocido:
-        if hour.hour < 6 or hour.hour > 20:
-            momento = 'Buenas noches.'
-        elif 6 <= hour.hour < 13:
-            momento = 'Buenos días.'
-        else:
-            momento = 'Buenas tardes.'
         talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales.')
     else:
-        talk(f'Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.'
+        talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.'
              f'¿Quieres registrarse?')
 
 def requests():
