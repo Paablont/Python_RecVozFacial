@@ -54,42 +54,31 @@ def print_voices():
     for voz in engine.getProperty('voices'):
         print(voz.id, voz)
 
-def say_day():
-    day = datetime.date.today()
-    weekday = {
-        0: 'Lunes',
-        1: 'Martes',
-        2: 'Miércoles',
-        3: 'Jueves',
-        4: 'Viernes',
-        5: 'Sábado',
-        6: 'Domingo'
-    }
-    talk(weekday[day.weekday()])
-
-def say_hour():
-    hour = datetime.datetime.now()
-    talk(f'En este momento son las {hour.hour} horas y {hour.minute} minutos')
-
-
 def saludo(reconocido):
     hour = datetime.datetime.now()
-    if hour.hour < 6 or hour.hour > 20 and reconocido:
-        momento = 'Buenas noches.'
-    elif 6 <= hour.hour < 13:
-        momento = 'Buenos días.'
+    if reconocido:
+        if hour.hour < 6 or hour.hour > 20:
+            momento = 'Buenas noches.'
+        elif 6 <= hour.hour < 13:
+            momento = 'Buenos días.'
+        else:
+            momento = 'Buenas tardes.'
+        talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales.')
     else:
-        momento = 'Buenas tardes.'
-
-    talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales.')
+        talk(f'Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.'
+             f'¿Quieres registrarse?')
 
 def requests():
+    reconocido = False
     stop = False
     while not stop:
         #Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
-        if 'Buenos dias princesa' in request:
-            print('activar camara')
-            #activarCamara()
+        if 'buenos dias princesa' in request:
+            talk('Saludando')
+            #reconocido = activarCamara()
+            #saludo(reconocido)
+        if 'quiero registrarme' in request:
+            talk('Registro en proceso')
 if __name__ == '__main__':
     requests()
