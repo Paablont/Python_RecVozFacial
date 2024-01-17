@@ -74,10 +74,9 @@ def requests():
     while not stop:
         #Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
-        if 'buenos dias princesa' in request:
-            talk('Saludando')
+        if 'buenos días princesa' in request:
             #reconocido = activarCamara()
-            #saludo(reconocido)
+            saludo(reconocido)
         if 'quiero registrarme' in request:
             talk('Registro en proceso')
 if __name__ == '__main__':
