@@ -78,6 +78,14 @@ def requests():
             #reconocido = activarCamara()
             saludo(reconocido)
         if 'quiero registrarme' in request:
-            talk('Registro en proceso')
+            registro()
+def registro():
+    talk('Di tu nombre')
+    nombre = audio_to_text().lower()
+    print(nombre)
+    talk('Proporciona tu número de telefono')
+    telefono = audio_to_text().lower()
+    print(telefono)
+
 if __name__ == '__main__':
     requests()
