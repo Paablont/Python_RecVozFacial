@@ -82,6 +82,19 @@ def requests():
         if 'quiero registrarme' in request:
             registro()
 
+def deletrearNumero():
+    talk("Por favor, deletrea el número de teléfono: ")
+    deletreo = audio_to_text()
+    mapeoNumeros = {
+        'cero': '0', 'uno': '1', 'dos': '2', 'tres': '3', 'cuatro': '4',
+        'cinco': '5', 'seis': '6', 'siete': '7', 'ocho': '8', 'nueve': '9'
+    }
+
+    # Para reemplazar las palabras que decimos por los numeros
+    for palabra, numero in mapeoNumeros.items():
+        deletreo = deletreo.replace(palabra, numero)
+
+    return deletreo
 
 def registro():
     talk('Di tu nombre')
@@ -89,13 +102,12 @@ def registro():
     print(nombre)
 
     while True:
-        talk('Proporciona tu número de teléfono')
-        telefono = audio_to_text().lower().strip().replace(' ', '')
+        # Quitamos los espacios de todos lados por si da error
+        telefono = deletrearNumero().replace(' ', '').split()
         print(telefono)
-
         try:
-            telefonoNumero= int(telefono)
-
+            # Para pasar de String [] a un int
+            telefonoNumero = int(''.join(telefono))
             break
         except ValueError:
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
