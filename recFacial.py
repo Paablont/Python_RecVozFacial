@@ -3,7 +3,7 @@ import cv2
 def activarCamara(telefonoNumero):
     echarFoto(telefonoNumero)
 
-def echarFoto(telefonoNumero,nombre):
+def echarFoto(telefonoNumero):
     captura = cv2.VideoCapture(0)
     registrado = False
     print("Preparate, voy a hacer una foto en tres...")
