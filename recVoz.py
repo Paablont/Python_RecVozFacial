@@ -1,11 +1,7 @@
 import pyttsx3
 import speech_recognition as sr
-import pywhatkit
-import yfinance as yf
-import pyjokes
-import webbrowser
 import datetime
-import wikipedia
+
 from recFacial import *
 
 def audio_to_text():
@@ -57,16 +53,16 @@ def print_voices():
 
 def saludo(reconocido):
     hour = datetime.datetime.now()
+    if hour.hour < 6 or hour.hour > 20:
+        momento = 'Buenas noches.'
+    elif 6 <= hour.hour < 13:
+        momento = 'Buenos días.'
+    else:
+        momento = 'Buenas tardes.'
     if reconocido:
-        if hour.hour < 6 or hour.hour > 20:
-            momento = 'Buenas noches.'
-        elif 6 <= hour.hour < 13:
-            momento = 'Buenos días.'
-        else:
-            momento = 'Buenas tardes.'
         talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales.')
     else:
-        talk(f'Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.'
+        talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.'
              f'¿Quieres registrarse?')
 
 def requests():
@@ -76,7 +72,8 @@ def requests():
         #Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
         if 'buenos días princesa' in request:
-            reconocido = activarCamara()
+            reconocido = True
+            activarCamara()
             saludo(reconocido)
         if 'quiero registrarme' in request:
             talk('Registro en proceso')
