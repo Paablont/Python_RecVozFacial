@@ -6,8 +6,6 @@ from recVoz import *
 def activarCamara():
     get_photo()
 
-
-
 def get_photo():
     captura = cv2.VideoCapture(0)
     registrado = False
