@@ -1,0 +1,12 @@
+{
+  "Usuarios": [
+    {
+      "nombre": "josua",
+      "telefono": 451
+    },
+    {
+      "nombre": "jos\u00e9",
+      "telefono": 5432
+    }
+  ]
+}
