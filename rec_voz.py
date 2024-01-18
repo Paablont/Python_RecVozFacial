@@ -1,14 +1,10 @@
 import json
 import os
-
 import pyttsx3
 import speech_recognition as sr
-import pywhatkit
-import yfinance as yf
-import pyjokes
-import webbrowser
 import datetime
-import wikipedia
+
+from recFacial import echarFoto
 
 
 def audio_to_text():
@@ -81,7 +77,7 @@ def requests():
         # Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
         if 'buenos días princesa' in request:
-            # reconocido = activarCamara()
+            #reconocido = activarCamara()
             saludo(reconocido)
         if 'quiero registrarme' in request:
             registro()
@@ -98,9 +94,11 @@ def registro():
 
         try:
             telefonoNumero= int(telefono)
+
             break
         except ValueError:
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
+    echarFoto(telefono)
 
 # Crear un diccionario con la información
     usuario = {

@@ -1,12 +1,7 @@
-from pathlib import Path
 import cv2
-import face_recognition as fr
-from recVoz import *
 
-def activarCamara():
-    get_photo()
 
-def get_photo():
+def echarFoto(telefonoNumero):
     captura = cv2.VideoCapture(0)
     registrado = False
     print("Preparate, voy a hacer una foto en tres...")
@@ -17,7 +12,7 @@ def get_photo():
     while not registrado:
         ok, frame = captura.read()
         if ok:
-            guardarFoto = "imagenes/foto1.jpg"
+            guardarFoto = f"imagenes/{telefonoNumero}.jpg"
             cv2.imwrite(guardarFoto, frame)
             registrado = True
             print("Usuario registrado correctamente")
@@ -28,5 +23,5 @@ def get_photo():
     captura.release()
     cv2.destroyAllWindows()
 
-get_photo()
+
 
