@@ -3,6 +3,7 @@ import os
 import pyttsx3
 import speech_recognition as sr
 import datetime
+
 from recFacial import *
 
 
@@ -86,6 +87,7 @@ def registro():
     talk('Di tu nombre')
     nombre = audio_to_text().lower()
     print(nombre)
+
     while True:
         talk('Proporciona tu número de teléfono')
         telefono = audio_to_text().lower().strip().replace(' ', '')
@@ -97,7 +99,7 @@ def registro():
             break
         except ValueError:
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
-    activarCamara(telefono)
+    echarFoto(telefono)
 
 # Crear un diccionario con la información
     usuario = {
@@ -118,4 +120,4 @@ def registro():
         with open(Usuarios, 'w') as archivo:
             json.dump({'Usuarios': [usuario]}, archivo, indent=2)
 
-    talk('Tu información ha sido guardada. Ahora estas dentro de la comunidad')
+    talk(f'Tu información ha sido guardada. .Bienvenido {nombre}')

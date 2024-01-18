@@ -3,7 +3,7 @@ import cv2
 def activarCamara(telefonoNumero):
     echarFoto(telefonoNumero)
 
-def echarFoto(telefonoNumero):
+def echarFoto(telefonoNumero,nombre):
     captura = cv2.VideoCapture(0)
     registrado = False
     print("Preparate, voy a hacer una foto en tres...")
@@ -17,7 +17,7 @@ def echarFoto(telefonoNumero):
             guardarFoto = f"imagenes/{telefonoNumero}.jpg"
             cv2.imwrite(guardarFoto, frame)
             registrado = True
-            print("Usuario registrado correctamente")
+            print(f"Reconocimiento facial guardado correctamente en la carpeta imagenes")
         else:
             print('No se ha podido recoger la imagen')
             registrado = False
