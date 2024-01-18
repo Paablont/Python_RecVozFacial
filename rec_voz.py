@@ -3,8 +3,7 @@ import os
 import pyttsx3
 import speech_recognition as sr
 import datetime
-
-from recFacial import echarFoto
+from recFacial import *
 
 
 def audio_to_text():
@@ -89,7 +88,7 @@ def registro():
     print(nombre)
     while True:
         talk('Proporciona tu número de teléfono')
-        telefono = audio_to_text().lower().strip()
+        telefono = audio_to_text().lower().strip().replace(' ', '')
         print(telefono)
 
         try:
@@ -98,7 +97,7 @@ def registro():
             break
         except ValueError:
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
-    echarFoto(telefono)
+    activarCamara(telefono)
 
 # Crear un diccionario con la información
     usuario = {

@@ -1,5 +1,7 @@
 import cv2
 
+def activarCamara(telefonoNumero):
+    echarFoto(telefonoNumero)
 
 def echarFoto(telefonoNumero):
     captura = cv2.VideoCapture(0)
