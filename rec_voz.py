@@ -1,5 +1,7 @@
 import json
 import os
+import sys
+
 import pyttsx3
 import speech_recognition as sr
 import datetime
@@ -69,7 +71,8 @@ def saludo(reconocido):
         talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.')
         talk(f' ¿Quiere registrarse?. Para registrarse, diga: Quiero registrarme')
 
-
+def salir():
+    sys.exit()
 def requests():
     reconocido = False
     stop = False
@@ -81,6 +84,8 @@ def requests():
             saludo(reconocido)
         if 'quiero registrarme' in request:
             registro()
+        if 'salir del programa' in request:
+            salir()
 
 def deletrearNumero():
     talk("Por favor, deletrea el número de teléfono: ")
