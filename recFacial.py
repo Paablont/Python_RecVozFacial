@@ -58,32 +58,22 @@ def imagenesAlista(carpeta):
 
     return fotos
 
-#La lista de fotos pasarlas a un perfil con color
+#La lista de fotos
 def asignar_perfil_color(fotos_list):
     for i in range(len(fotos_list)):
         fotos_list[i] = cv2.cvtColor(fotos_list[i], cv2.COLOR_BGR2RGB)
     return fotos_list
 
-
-# Por defecto, el valor de la distancia para determinar si es true o false es 0.6
-def compare_all_with_control(cara_cod_list):
-    results = []
-    for i,fc in enumerate(cara_cod_list):
-        if i > 0:
-            # Con fr.compare_faces([control_cod], cara_cod_comparar, 0.3) podemos modificar el límite por el que determinaría si es true
-            diferencias = {'misma_cara': fr.compare_faces([cara_cod_list[0]], fc),
-                           'distancia': fr.face_distance([cara_cod_list[0]], fc)}
-        elif i == 0:
-            diferencias = { 'misma_cara': 'control',
-                            'distancia': '0'}
-        results.append(diferencias)
-
-    return results
-
+def comprobarImagen(imgPath):
+    print("Vamos a comprobar")
+    img = cv2.imread(imgPath)
+    print(img.shape)
 
 
 echarFoto("777")
+listaImagenes = imagenesAlista("imagenes")
 
+listaColor=asignar_perfil_color(listaImagenes)
 
 
 
