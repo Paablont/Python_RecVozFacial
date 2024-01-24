@@ -1,11 +1,10 @@
 import json
 import os
 import sys
-
+from pathlib import *
 import pyttsx3
 import speech_recognition as sr
 import datetime
-
 from recFacial import *
 
 
@@ -102,6 +101,10 @@ def deletrearNumero():
     return deletreo
 
 def registro():
+    paths = []
+    paths.append(Path('fotos', 'foto1.jpg'))
+    paths.append(Path('fotos', 'foto2.jpg'))
+    paths.append(Path('fotos', 'foto3.jpeg'))
     talk('Di tu nombre')
     nombre = audio_to_text().lower()
     print(nombre)
@@ -118,7 +121,7 @@ def registro():
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
     echarFoto(telefono)
 
-# Crear un diccionario con la información
+    # Crear un diccionario con la información
     usuario = {
         'nombre': nombre,
         'telefono': telefonoNumero
