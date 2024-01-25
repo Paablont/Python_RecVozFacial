@@ -105,7 +105,7 @@ def saludo(reconocido):
         momento = 'Buenos días.'
     else:
         momento = 'Buenas tardes.'
-    if reconocido[0]:
+    if reconocido:
         talk(f'{momento} ya estas registrado en el sistema. Bienvenido de nuevo')
     else:
         talk(f'{momento} no estas registrado en el sistema.')
@@ -129,9 +129,10 @@ def registro():
         try:
             # Para pasar de String [] a un int
             telefonoNumero = int(''.join(telefono))
-            if verificarTelefono(telefonoNumero):
-                talk('El número de teléfono ya está registrado. Por favor, elige otro.')
-                print(verificarTelefono(telefonoNumero))
+            if os.path.exists('Usuarios.json'):
+                if verificarTelefono(telefonoNumero):
+                    talk('El número de teléfono ya está registrado. Por favor, elige otro.')
+                    print(verificarTelefono(telefonoNumero))
             else:
                 break
         except ValueError:

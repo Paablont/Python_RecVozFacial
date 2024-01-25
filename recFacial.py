@@ -101,8 +101,9 @@ def comprobarImagen(imgPath, listaImg):
     for i, referencia_img in enumerate(listaImg):
             # Obtener las características faciales de la imagen de referencia
             referencia_encodings = fr.face_encodings(referencia_img)[0]
-            resultados = fr.compare_faces([referencia_encodings], img_encodings)
+            comparaCaras = fr.compare_faces([referencia_encodings], img_encodings)
 
+    resultados = comparaCaras[0]
     print(f'EN METODOD {resultados}')
     return resultados
 
