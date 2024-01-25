@@ -7,7 +7,7 @@ import speech_recognition as sr
 import datetime
 from recFacial import *
 
-
+#Metodo para que reconozca la voz y la pase a texto
 def audio_to_text():
     # Recognizer
     r = sr.Recognizer()
@@ -40,7 +40,7 @@ def audio_to_text():
             print('Ups, algo ha salido mal')
             return 'Esperando'
 
-
+#Metodo para que la maquina lea en voz alta los mensajes
 def talk(msg):
     # Encender el motor pyttsx3
     engine = pyttsx3.init()
@@ -70,11 +70,11 @@ def saludo(reconocido):
         talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.')
         talk(f' ¿Quiere registrarse?. Para registrarse, diga: Quiero registrarme')
 
+#Metodo para salir del programa
 def salir():
     sys.exit()
 
-
-
+#Metodo para borrar un usuario del JSON
 def borrar(telefono):
     Usuarios = 'Usuarios.json'
 
@@ -98,22 +98,7 @@ def borrar(telefono):
     else:
         talk('El archivo no existe.')
 
-def requests():
-    reconocido = False
-    stop = False
-    while not stop:
-        # Activar el micro y guardar la request en un string
-        request = audio_to_text().lower()
-        if 'buenos días princesa' in request:
-            #reconocido = activarCamara()
-            saludo(reconocido)
-        if 'quiero registrarme' in request:
-            registro()
-        if 'salir del programa' in request:
-            salir()
-        if 'borrar usuario' in request:
-            borrar()
-
+#Metodo para que al deletrear el numero lo pille con enteros y no con letras
 def deletrearNumero():
     talk("Por favor, deletrea el número de teléfono: ")
     deletreo = audio_to_text()
@@ -128,6 +113,7 @@ def deletrearNumero():
 
     return deletreo
 
+#Metodo para registrar nuevo usuario (Comprueba si el numero de telef ya existe o no)
 def registro():
     talk('Di tu nombre')
     nombre = audio_to_text().lower()
@@ -149,7 +135,7 @@ def registro():
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
     echarFoto(telefonoNumero)
 
-# Crear un diccionario con la información
+# Crear un diccionario con la información para añadirlo a un fichero JSON
     usuario = {
         'nombre': nombre,
         'telefono': telefonoNumero
@@ -169,6 +155,8 @@ def registro():
             json.dump({'Usuarios': [usuario]}, archivo, indent=2)
 
     talk(f'Tu información ha sido guardada. .Bienvenido {nombre}')
+
+#Metodo para comprobar si el telefono existe o no en el JSON
 def verificarTelefono(telefono):
     try:
         # Leemos JSON
@@ -182,3 +170,20 @@ def verificarTelefono(telefono):
     except json.JSONDecodeError:
         print("Error al decodificar el JSON.")
         return False
+
+#Metodo para ejecutar el programa entero
+def requests():
+    reconocido = False
+    stop = False
+    while not stop:
+        # Activar el micro y guardar la request en un string
+        request = audio_to_text().lower()
+        if 'buenos días princesa' in request:
+            #reconocido = activarCamara()
+            saludo(reconocido)
+        if 'quiero registrarme' in request:
+            registro()
+        if 'salir del programa' in request:
+            salir()
+        if 'borrar usuario' in request:
+            borrar()
