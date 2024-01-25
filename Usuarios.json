@@ -15,6 +15,18 @@
     {
       "nombre": "pablo",
       "telefono": 5421
+    },
+    {
+      "nombre": "miguel",
+      "telefono": 5421
+    },
+    {
+      "nombre": "jose",
+      "telefono": 584
+    },
+    {
+      "nombre": "jose carlos",
+      "telefono": 841
     }
   ]
 }

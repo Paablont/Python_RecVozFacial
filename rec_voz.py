@@ -72,6 +72,32 @@ def saludo(reconocido):
 
 def salir():
     sys.exit()
+
+
+
+def borrar(telefono):
+    Usuarios = 'Usuarios.json'
+
+    if os.path.exists(Usuarios):
+        with open(Usuarios, 'r') as archivoExiste:
+            datosExiste = json.load(archivoExiste)
+            usuariosCambiar = []
+
+            # Eliminamos por numero de telefono
+            for usuario in datosExiste['Usuarios']:
+                if usuario['telefono'] != telefono:
+                    usuariosCambiar.append(usuario)
+
+            # Actualizamos la lista de usuarios
+            datosExiste['Usuarios'] = usuariosCambiar
+
+        with open(Usuarios, 'w') as archivo:
+            json.dump(datosExiste, archivo, indent=2)
+        talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
+
+    else:
+        talk('El archivo no existe.')
+
 def requests():
     reconocido = False
     stop = False
@@ -85,6 +111,8 @@ def requests():
             registro()
         if 'salir del programa' in request:
             salir()
+        if 'borrar usuario' in request:
+            borrar()
 
 def deletrearNumero():
     talk("Por favor, deletrea el número de teléfono: ")
@@ -101,10 +129,6 @@ def deletrearNumero():
     return deletreo
 
 def registro():
-    paths = []
-    paths.append(Path('fotos', 'foto1.jpg'))
-    paths.append(Path('fotos', 'foto2.jpg'))
-    paths.append(Path('fotos', 'foto3.jpeg'))
     talk('Di tu nombre')
     nombre = audio_to_text().lower()
     print(nombre)
@@ -116,12 +140,16 @@ def registro():
         try:
             # Para pasar de String [] a un int
             telefonoNumero = int(''.join(telefono))
-            break
+            if verificarTelefono(telefonoNumero):
+                talk('El número de teléfono ya está registrado. Por favor, elige otro.')
+                print(verificarTelefono(telefonoNumero))
+            else:
+                break
         except ValueError:
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
-    echarFoto(telefono)
+    echarFoto(telefonoNumero)
 
-    # Crear un diccionario con la información
+# Crear un diccionario con la información
     usuario = {
         'nombre': nombre,
         'telefono': telefonoNumero
@@ -141,3 +169,16 @@ def registro():
             json.dump({'Usuarios': [usuario]}, archivo, indent=2)
 
     talk(f'Tu información ha sido guardada. .Bienvenido {nombre}')
+def verificarTelefono(telefono):
+    try:
+        # Leemos JSON
+        with open('Usuarios.json', 'r') as archivo_json:
+            data = json.load(archivo_json)
+
+        # Verificamos si existe
+        telefonoExiste = any(usuario["telefono"] == telefono for usuario in data["Usuarios"])
+
+        return telefonoExiste
+    except json.JSONDecodeError:
+        print("Error al decodificar el JSON.")
+        return False
