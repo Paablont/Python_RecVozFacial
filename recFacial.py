@@ -1,3 +1,4 @@
+import os
 import time
 
 import cv2
@@ -9,6 +10,7 @@ def echarFoto(telefono):
     captura = cv2.VideoCapture(0)
     echada = False
     start_time = time.time()
+    crearCarpetaImagenes()
 
     while not echada:
         ok, frame = captura.read()
@@ -37,3 +39,7 @@ def echarFoto(telefono):
         # Liberas los recursos de la camara
     captura.release()
     cv2.destroyAllWindows()
+def crearCarpetaImagenes():
+    # Si no existe, la crea
+    if not os.path.exists('imagenes'):
+        os.makedirs('imagenes')
