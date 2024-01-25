@@ -105,7 +105,7 @@ def saludo(reconocido):
         momento = 'Buenos días.'
     else:
         momento = 'Buenas tardes.'
-    if reconocido:
+    if reconocido[0]:
         talk(f'{momento} ya estas registrado en el sistema. Bienvenido de nuevo')
     else:
         talk(f'{momento} no estas registrado en el sistema.')
@@ -125,6 +125,7 @@ def registro():
         # Quitamos los espacios de todos lados por si da error
         telefono = deletrearNumero().replace(' ', '').split()
         print(telefono)
+
         try:
             # Para pasar de String [] a un int
             telefonoNumero = int(''.join(telefono))
@@ -159,7 +160,7 @@ def registro():
 
     talk(f'Tu información ha sido guardada. .Bienvenido {nombre}')
 
-#Metodo para comprobar si el telefono existe o no en el JSON
+
 
 
 #Metodo para ejecutar el programa entero

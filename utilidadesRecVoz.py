@@ -2,6 +2,7 @@ import json
 import os
 
 
+# Metodo para comprobar si el telefono existe o no en el JSON
 def verificarTelefono(telefono):
     try:
         # Leemos JSON
