@@ -79,7 +79,7 @@ def imagenesAlista(carpeta):
     #
     path_list = []
     files = os.listdir(carpeta)
-    #coge los archivos .jpg,.jpeg
+    #coge los archivos .jpg,.jpeg POR SI HAY ALGUNA IMAGEN AÑADIDA MAL APOSTA
     image_files = [f for f in files if f.lower().endswith(('.jpg', '.jpeg'))]
 
     # Construir la lista de rutas de las imágenes
@@ -87,7 +87,7 @@ def imagenesAlista(carpeta):
         image_path = os.path.join(carpeta, image_file)
         path_list.append(image_path)
 
-    # La primera será una foto de control, el resto de pruebas
+
     fotos = [fr.load_image_file(path) for path in path_list]
 
     return fotos
@@ -106,6 +106,10 @@ def comprobarImagen(imgPath, listaImg):
     # Obtener las características faciales de la imagen
     img_encodings = fr.face_encodings(img)
 
+    #Para comprobar que la foto tenga rasgos humanos
+    if not img_encodings:
+        print("Lo que aparece en la foto no tiene rasgos humanos")
+        return False
     img_encodings = img_encodings[0]
 
     #Para
