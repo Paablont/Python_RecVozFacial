@@ -1,7 +1,7 @@
 import os
 import time
 import cv2
-import fr
+import face_recognition as fr
 
 from utilidadesRecFac import crearCarpetaImagenes, imagenesAlista, borrarImagen
 
@@ -13,7 +13,7 @@ def echarFoto(telefono):
     captura = cv2.VideoCapture(0)
     echada = False
     start_time = time.time()
-    crearCarpetaImagenes()
+
 
     while not echada:
         ok, frame = captura.read()
@@ -103,6 +103,7 @@ def comprobarImagen(imgPath, listaImg):
             referencia_encodings = fr.face_encodings(referencia_img)[0]
             resultados = fr.compare_faces([referencia_encodings], img_encodings)
 
+    print(f'EN METODOD {resultados}')
     return resultados
 
 

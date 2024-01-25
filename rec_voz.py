@@ -6,7 +6,7 @@ import pyttsx3
 import speech_recognition as sr
 import datetime
 from recFacial import *
-from utilidadesRecVoz import deletrearNumero, borrar, verificarTelefono
+from utilidadesRecVoz import  verificarTelefono
 
 
 #Metodo para que reconozca la voz y la pase a texto
@@ -57,8 +57,47 @@ def print_voices():
     for voz in engine.getProperty('voices'):
         print(voz.id, voz)
 
+#Metodo para borrar un usuario del JSON
+def borrar(telefono):
+    Usuarios = 'Usuarios.json'
+
+    if os.path.exists(Usuarios):
+        with open(Usuarios, 'r') as archivoExiste:
+            datosExiste = json.load(archivoExiste)
+            usuariosCambiar = []
+
+            # Eliminamos por numero de telefono
+            for usuario in datosExiste['Usuarios']:
+                if usuario['telefono'] != telefono:
+                    usuariosCambiar.append(usuario)
+
+            # Actualizamos la lista de usuarios
+            datosExiste['Usuarios'] = usuariosCambiar
+
+        with open(Usuarios, 'w') as archivo:
+            json.dump(datosExiste, archivo, indent=2)
+        talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
+
+    else:
+        talk('El archivo no existe.')
+
+#Metodo para que al deletrear el numero lo pille con enteros y no con letras
+def deletrearNumero():
+    talk("Por favor, deletrea el número de teléfono: ")
+    deletreo = audio_to_text()
+    mapeoNumeros = {
+        'cero': '0', 'uno': '1', 'dos': '2', 'tres': '3', 'cuatro': '4',
+        'cinco': '5', 'seis': '6', 'siete': '7', 'ocho': '8', 'nueve': '9'
+    }
+
+    # Para reemplazar las palabras que decimos por los numeros
+    for palabra, numero in mapeoNumeros.items():
+        deletreo = deletreo.replace(palabra, numero)
+
+    return deletreo
 
 def saludo(reconocido):
+    print(f"FUNCION {reconocido}")
     hour = datetime.datetime.now()
     if hour.hour < 6 or hour.hour > 20:
         momento = 'Buenas noches.'
@@ -67,16 +106,14 @@ def saludo(reconocido):
     else:
         momento = 'Buenas tardes.'
     if reconocido:
-        talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales.')
+        talk(f'{momento} ya estas registrado en el sistema. Bienvenido de nuevo')
     else:
-        talk(f'{momento} Somos Pablo y Miguel, tus asistentes personales, no estas registrado en el sistema.')
+        talk(f'{momento} no estas registrado en el sistema.')
         talk(f' ¿Quiere registrarse?. Para registrarse, diga: Quiero registrarme')
 
 #Metodo para salir del programa
 def salir():
     sys.exit()
-
-
 
 #Metodo para registrar nuevo usuario (Comprueba si el numero de telef ya existe o no)
 def registro():
@@ -98,6 +135,7 @@ def registro():
                 break
         except ValueError:
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
+    talk("Preparate, vamos a guardar una foto tuya")
     echarFoto(telefonoNumero)
 
 # Crear un diccionario con la información para añadirlo a un fichero JSON
@@ -126,14 +164,25 @@ def registro():
 
 #Metodo para ejecutar el programa entero
 def requests():
+    crearCarpetaImagenes()
     reconocido = False
     stop = False
+    talk("Iniciando el sistema de reconocimiento a la clase de DAM. "
+         "Vamos a proceder a realizar un reconocimiento facial")
+    talk("Para iniciar el sistema di: buenos dias princesa. Para salir: salir del programa")
     while not stop:
         # Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
         if 'buenos días princesa' in request:
-            #reconocido = activarCamara()
+            echarFotoComprobar()
+            listaImagenes = imagenesAlista("imagenes")
+            if len(listaImagenes) != 0:
+                listaColor = asignar_perfil_color(listaImagenes)
+                reconocido = comprobarImagen("foto.jpg", listaColor)
+                print(f"MAIN {reconocido}")
+                borrarImagen()
             saludo(reconocido)
+
         if 'quiero registrarme' in request:
             registro()
         if 'salir del programa' in request:

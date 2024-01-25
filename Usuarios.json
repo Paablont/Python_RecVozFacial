@@ -23,6 +23,18 @@
     {
       "nombre": "jose",
       "telefono": 584
+    },
+    {
+      "nombre": "pablo",
+      "telefono": 1234
+    },
+    {
+      "nombre": "pedro",
+      "telefono": 554
+    },
+    {
+      "nombre": "ryan",
+      "telefono": 542
     }
   ]
 }

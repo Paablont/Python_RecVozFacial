@@ -1,5 +1,7 @@
 import os
-import fr
+import face_recognition as fr
+
+
 
 def crearCarpetaImagenes():
     # Si no existe, la crea
@@ -27,12 +29,3 @@ def imagenesAlista(carpeta):
     return fotos
 
 
-# Para probar recFacial
-#echarFoto("777")
-# listaImagenes = imagenesAlista("imagenes")
-# listaColor=asignar_perfil_color(listaImagenes)
-# echarFotoComprobar()
-# registrado = comprobarImagen("foto.jpg",listaColor)
-# print(f"Registrado : {registrado}")
-#
-# borrarImagen()
