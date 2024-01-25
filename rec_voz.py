@@ -117,6 +117,7 @@ def salir():
 
 #Metodo para registrar nuevo usuario (Comprueba si el numero de telef ya existe o no)
 def registro():
+    Usuarios = 'Usuarios.json'
     talk('Di tu nombre')
     nombre = audio_to_text().lower()
     print(nombre)
@@ -129,10 +130,12 @@ def registro():
         try:
             # Para pasar de String [] a un int
             telefonoNumero = int(''.join(telefono))
-            if os.path.exists('Usuarios.json'):
+            if os.path.exists(Usuarios):
                 if verificarTelefono(telefonoNumero):
                     talk('El número de teléfono ya está registrado. Por favor, elige otro.')
                     print(verificarTelefono(telefonoNumero))
+                else:
+                    break
             else:
                 break
         except ValueError:
@@ -146,7 +149,6 @@ def registro():
         'telefono': telefonoNumero
     }
 
-    Usuarios = 'Usuarios.json'
     if os.path.exists(Usuarios):
         with open(Usuarios, 'r') as archivoExiste:
             datosExiste = json.load(archivoExiste)
@@ -160,9 +162,6 @@ def registro():
             json.dump({'Usuarios': [usuario]}, archivo, indent=2)
 
     talk(f'Tu información ha sido guardada. .Bienvenido {nombre}')
-
-
-
 
 #Metodo para ejecutar el programa entero
 def requests():
