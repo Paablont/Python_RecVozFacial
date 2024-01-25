@@ -8,7 +8,7 @@ def crearCarpetaImagenes():
     if not os.path.exists('imagenes'):
         os.makedirs('imagenes')
 def borrarImagen():
-    os.remove("foto.jpg")
+    os.remove("temp.jpg")
 
 #Este metodo pasa las imagenes de la carpeta "imagenes" a una lista
 def imagenesAlista(carpeta):

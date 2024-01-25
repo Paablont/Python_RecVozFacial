@@ -107,12 +107,17 @@ def saludo(reconocido):
         momento = 'Buenas tardes.'
     if reconocido:
         talk(f'{momento} ya estas registrado en el sistema. Bienvenido de nuevo')
+        talk('Puedes hacer varias opciones: '
+             'Para borrar el usuario di: Borrar usuario. '
+             'Para cerrar la sesion actual di: Cerrar sesion. '
+             'Para salir del programa di: Salir del programa')
     else:
         talk(f'{momento} no estas registrado en el sistema.')
         talk(f' ¿Quiere registrarse?. Para registrarse, diga: Quiero registrarme')
 
 #Metodo para salir del programa
 def salir():
+    borrarImagen()
     sys.exit()
 
 #Metodo para registrar nuevo usuario (Comprueba si el numero de telef ya existe o no)
@@ -126,7 +131,6 @@ def registro():
         # Quitamos los espacios de todos lados por si da error
         telefono = deletrearNumero().replace(' ', '').split()
         print(telefono)
-
         try:
             # Para pasar de String [] a un int
             telefonoNumero = int(''.join(telefono))
@@ -162,6 +166,10 @@ def registro():
             json.dump({'Usuarios': [usuario]}, archivo, indent=2)
 
     talk(f'Tu información ha sido guardada. .Bienvenido {nombre}')
+    talk('Puedes hacer varias opciones: '
+         'Para borrar el usuario di: Borrar usuario. '
+         'Para cerrar la sesion actual di: Cerrar sesion. '
+         'Para salir del programa di: Salir del programa')
 
 #Metodo para ejecutar el programa entero
 def requests():
@@ -175,13 +183,13 @@ def requests():
         # Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
         if 'buenos días princesa' in request:
+
             echarFotoComprobar()
             listaImagenes = imagenesAlista("imagenes")
             if len(listaImagenes) != 0:
                 listaColor = asignar_perfil_color(listaImagenes)
                 reconocido = comprobarImagen("foto.jpg", listaColor)
                 print(f"MAIN {reconocido}")
-                borrarImagen()
             saludo(reconocido)
 
         if 'quiero registrarme' in request:
@@ -190,3 +198,5 @@ def requests():
             salir()
         if 'borrar usuario' in request:
             borrar()
+        if 'cerrar sesión' in request:
+            print('cerrar sesion')

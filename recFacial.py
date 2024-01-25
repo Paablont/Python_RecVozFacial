@@ -59,7 +59,7 @@ def echarFotoComprobar():
             while not registrado:
                 ok, frame = captura.read()
                 if ok:
-                    guardarFoto = f"foto.jpg"
+                    guardarFoto = f"temp.jpg"
                     cv2.imwrite(guardarFoto, frame)
                     registrado = True
                     echada = True
