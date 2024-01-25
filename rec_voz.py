@@ -73,6 +73,32 @@ def saludo(reconocido):
 
 def salir():
     sys.exit()
+
+
+
+def borrar(telefono):
+    Usuarios = 'Usuarios.json'
+
+    if os.path.exists(Usuarios):
+        with open(Usuarios, 'r') as archivoExiste:
+            datosExiste = json.load(archivoExiste)
+            usuariosCambiar = []
+
+            # Eliminamos por numero de telefono
+            for usuario in datosExiste['Usuarios']:
+                if usuario['telefono'] != telefono:
+                    usuariosCambiar.append(usuario)
+
+            # Actualizamos la lista de usuarios
+            datosExiste['Usuarios'] = usuariosCambiar
+
+        with open(Usuarios, 'w') as archivo:
+            json.dump(datosExiste, archivo, indent=2)
+        talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
+
+    else:
+        talk('El archivo no existe.')
+
 def requests():
     reconocido = False
     stop = False
@@ -86,6 +112,8 @@ def requests():
             registro()
         if 'salir del programa' in request:
             salir()
+        if 'borrar usuario' in request:
+            borrar()
 
 def deletrearNumero():
     talk("Por favor, deletrea el número de teléfono: ")
