@@ -175,7 +175,6 @@ def registro():
 def cerrarSesion():
     requests()
 
-
 def requests():
     crearCarpetaImagenes()
     reconocido = False
@@ -205,4 +204,5 @@ def requests():
             borrar()
         if 'cerrar sesión' in request:
             borrarImagen()
+            talk('Se ha cerrado la sesion. Reiniciando el sistema... ')
             cerrarSesion()
