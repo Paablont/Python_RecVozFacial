@@ -172,6 +172,10 @@ def registro():
          'Para salir del programa di: Salir del programa')
 
 #Metodo para ejecutar el programa entero
+def cerrarSesion():
+    requests()
+
+
 def requests():
     crearCarpetaImagenes()
     reconocido = False
@@ -195,8 +199,10 @@ def requests():
         if 'quiero registrarme' in request:
             registro()
         if 'salir del programa' in request:
+            borrarImagen()
             salir()
         if 'borrar usuario' in request:
             borrar()
         if 'cerrar sesión' in request:
-            print('cerrar sesion')
+            borrarImagen()
+            cerrarSesion()
