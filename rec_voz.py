@@ -113,12 +113,16 @@ def registro():
         try:
             # Para pasar de String [] a un int
             telefonoNumero = int(''.join(telefono))
-            break
+            if verificarTelefono(telefonoNumero):
+                talk('El número de teléfono ya está registrado. Por favor, elige otro.')
+                print(verificarTelefono(telefonoNumero))
+            else:
+                break
         except ValueError:
             talk('El número de teléfono contiene letras. Por favor, repítelo.')
-    echarFoto(telefono)
+    echarFoto(telefonoNumero)
 
-# Crear un diccionario con la información
+# Diccionario
     usuario = {
         'nombre': nombre,
         'telefono': telefonoNumero
@@ -138,3 +142,16 @@ def registro():
             json.dump({'Usuarios': [usuario]}, archivo, indent=2)
 
     talk(f'Tu información ha sido guardada. .Bienvenido {nombre}')
+def verificarTelefono(telefono):
+    try:
+        # Leemos JSON
+        with open('Usuarios.json', 'r') as archivo_json:
+            data = json.load(archivo_json)
+
+        # Verificamos si existe
+        telefonoExiste = any(usuario["telefono"] == telefono for usuario in data["Usuarios"])
+
+        return telefonoExiste
+    except json.JSONDecodeError:
+        print("Error al decodificar el JSON.")
+        return False

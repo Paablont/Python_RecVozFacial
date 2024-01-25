@@ -37,5 +37,3 @@ def echarFoto(telefono):
         # Liberas los recursos de la camara
     captura.release()
     cv2.destroyAllWindows()
-
-echarFoto("555")
