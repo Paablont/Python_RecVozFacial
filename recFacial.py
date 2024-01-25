@@ -15,7 +15,7 @@ def echarFoto(telefono):
         ok, frame = captura.read()
         cv2.imshow('Cámara', frame)
 
-        # durante 3 segundos
+        # durante 5 segundos
         if time.time() - start_time >= 5:
             # Captura despues de los 3 segundos
             registrado = False
@@ -48,7 +48,7 @@ def echarFotoComprobar():
         ok, frame = captura.read()
         cv2.imshow('Cámara', frame)
 
-        # durante 3 segundos
+        # durante 5 segundos
         if time.time() - start_time >= 5:
             # Captura despues de los 3 segundos
             registrado = False
