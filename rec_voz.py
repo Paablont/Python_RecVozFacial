@@ -6,6 +6,7 @@ import pyttsx3
 import speech_recognition as sr
 import datetime
 from recFacial import *
+from utilidadesRecFac import borrarImagenUsuario
 from utilidadesRecVoz import  verificarTelefono
 
 
@@ -70,14 +71,15 @@ def borrar(telefono):
             for usuario in datosExiste['Usuarios']:
                 if usuario['telefono'] != telefono:
                     usuariosCambiar.append(usuario)
-                    borrarImagen()
+                    borrarImagenUsuario(telefono)
+                    talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
+                    # Actualizamos la lista de usuarios
+                    datosExiste['Usuarios'] = usuariosCambiar
 
-            # Actualizamos la lista de usuarios
-            datosExiste['Usuarios'] = usuariosCambiar
 
         with open(Usuarios, 'w') as archivo:
             json.dump(datosExiste, archivo, indent=2)
-        talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
+
 
     else:
         talk('El archivo no existe.')
@@ -180,9 +182,9 @@ def requests():
     crearCarpetaImagenes()
     reconocido = False
     stop = False
-    talk("Iniciando el sistema de reconocimiento a la clase de DAM. "
-         "Vamos a proceder a realizar un reconocimiento facial")
-    talk("Para iniciar el sistema di: buenos dias princesa. Para salir: salir del programa")
+    #talk("Iniciando el sistema de reconocimiento a la clase de DAM. "
+      #   "Vamos a proceder a realizar un reconocimiento facial")
+    #talk("Para iniciar el sistema di: buenos dias princesa. Para salir: salir del programa")
     while not stop:
         # Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
@@ -192,7 +194,7 @@ def requests():
             listaImagenes = imagenesAlista("imagenes")
             if len(listaImagenes) != 0:
                 listaColor = asignar_perfil_color(listaImagenes)
-                reconocido = comprobarImagen("foto.jpg", listaColor)
+                reconocido = comprobarImagen("temp.jpg", listaColor)
                 print(f"MAIN {reconocido}")
             saludo(reconocido)
 
@@ -202,7 +204,19 @@ def requests():
             borrarImagen()
             salir()
         if 'borrar usuario' in request:
-            borrar()
+            while True:
+                # Quitamos los espacios de todos lados por si da error
+                telefono = deletrearNumero().replace(' ', '').split()
+                print(telefono)
+                try:
+                    # Para pasar de String [] a un int
+                    telefonoNumero = int(''.join(telefono))
+                    #telefonoNumero = int(''.join(telefono))
+                    borrar(telefonoNumero)
+                    break
+                except ValueError:
+                    talk('El número de teléfono contiene letras. Por favor, repítelo.')
+
         if 'cerrar sesión' in request:
             borrarImagen()
             talk('Se ha cerrado la sesion. Reiniciando el sistema... ')
