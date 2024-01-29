@@ -9,6 +9,18 @@ def crearCarpetaImagenes():
         os.makedirs('imagenes')
 def borrarImagen():
     os.remove("temp.jpg")
+def borrarImagenUsuario(fotoTelefono):
+    if os.path.exists('imagenes'):
+        rutaFoto = os.path.join('imagenes', fotoTelefono + '.jpg')
+
+        if os.path.exists(rutaFoto):
+            os.remove(rutaFoto)
+            print(f"La foto {fotoTelefono} ha sido borrada")
+        else:
+            print(f"La foto {fotoTelefono} no existe en la carpeta")
+    else:
+        print(f"La carpeta {fotoTelefono} no existe")
+
 
 #Este metodo pasa las imagenes de la carpeta "imagenes" a una lista
 def imagenesAlista(carpeta):

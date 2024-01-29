@@ -70,6 +70,7 @@ def borrar(telefono):
             for usuario in datosExiste['Usuarios']:
                 if usuario['telefono'] != telefono:
                     usuariosCambiar.append(usuario)
+                    borrarImagen()
 
             # Actualizamos la lista de usuarios
             datosExiste['Usuarios'] = usuariosCambiar
