@@ -85,6 +85,7 @@ def asignar_perfil_color(listaImg):
 
 
 def comprobarImagen(imgPath, listaImg):
+    reconocido = False
     print("Vamos a comprobar")
     img = fr.load_image_file(imgPath)
 
@@ -102,10 +103,13 @@ def comprobarImagen(imgPath, listaImg):
             # Obtener las características faciales de la imagen de referencia
             referencia_encodings = fr.face_encodings(referencia_img)[0]
             comparaCaras = fr.compare_faces([referencia_encodings], img_encodings)
+            if comparaCaras[0]:
+                reconocido = True
+                break
 
-    resultados = comparaCaras[0]
-    print(f'EN METODOD {resultados}')
-    return resultados
+
+    print(f'EN METODOD {reconocido}')
+    return reconocido
 
 
 

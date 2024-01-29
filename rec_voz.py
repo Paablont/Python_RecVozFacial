@@ -71,15 +71,17 @@ def borrar(telefono):
             for usuario in datosExiste['Usuarios']:
                 if usuario['telefono'] != telefono:
                     usuariosCambiar.append(usuario)
-                    borrarImagenUsuario(telefono)
-                    talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
-                    # Actualizamos la lista de usuarios
-                    datosExiste['Usuarios'] = usuariosCambiar
 
+            # Actualizamos la lista de usuarios
+            datosExiste['Usuarios'] = usuariosCambiar
 
         with open(Usuarios, 'w') as archivo:
             json.dump(datosExiste, archivo, indent=2)
 
+        # Luego de actualizar la lista, eliminamos la imagen
+        borrarImagenUsuario(telefono)
+
+        talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
 
     else:
         talk('El archivo no existe.')
