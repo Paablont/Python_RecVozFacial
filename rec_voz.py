@@ -69,24 +69,18 @@ def borrar(telefono, contrasenia):
 
             for usuario in datosExiste['Usuarios']:
                 if usuario['telefono'] == telefono and usuario['contrasenia'] == contrasenia:
-                    # No añadimos a la lista aquellos que coinciden con el telefono y contraseña
                     borrarImagenUsuario(telefono)
                     talk(f'Usuario con número de teléfono {telefono} eliminado correctamente. Volviendo al menú...')
-                    requests()
                 else:
-                    talk(f'Contraseña o numero de teléfono inválido. Volviendo al menú...')
                     usuariosCambiar.append(usuario)
-                    requests()
 
             # Actualizamos la lista de usuarios
             datosExiste['Usuarios'] = usuariosCambiar
 
         with open(Usuarios, 'w') as archivo:
             json.dump(datosExiste, archivo, indent=2)
-
     else:
         talk('El archivo no existe.')
-
 #Metodo para que al deletrear el numero lo pille con enteros y no con letras
 def deletrearNumero():
     talk("Por favor, deletrea el número de teléfono: ")
@@ -209,7 +203,7 @@ def requests():
             salir()
         if 'borrar usuario' in request:
             talk('Proporciona tu contraseña.')
-            contra = audio_to_text().lower()
+            contra = audio_to_text().lower().replace(' ', '')
             while True:
                 # Quitamos los espacios de todos lados por si da error
                 telefono = deletrearNumero().replace(' ', '').split()
