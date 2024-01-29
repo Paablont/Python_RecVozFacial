@@ -59,7 +59,7 @@ def print_voices():
         print(voz.id, voz)
 
 #Metodo para borrar un usuario del JSON
-def borrar(telefono,contrasenia):
+def borrar(telefono, contrasenia):
     Usuarios = 'Usuarios.json'
 
     if os.path.exists(Usuarios):
@@ -67,21 +67,21 @@ def borrar(telefono,contrasenia):
             datosExiste = json.load(archivoExiste)
             usuariosCambiar = []
 
-            # Eliminamos por numero de telefono
             for usuario in datosExiste['Usuarios']:
-                if usuario['telefono'] != telefono and usuario['contrasenia'] != contrasenia:
+                if usuario['telefono'] == telefono and usuario['contrasenia'] == contrasenia:
+                    # No añadimos a la lista aquellos que coinciden con el telefono y contraseña
+                    borrarImagenUsuario(telefono)
+                    talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
+                else:
+                    talk(f'Contraseña o numero de telefono invalido. Volviendo al menu...')
                     usuariosCambiar.append(usuario)
+                    requests()
 
             # Actualizamos la lista de usuarios
             datosExiste['Usuarios'] = usuariosCambiar
 
         with open(Usuarios, 'w') as archivo:
             json.dump(datosExiste, archivo, indent=2)
-
-        # Luego de actualizar la lista, eliminamos la imagen
-        borrarImagenUsuario(telefono)
-
-        talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
 
     else:
         talk('El archivo no existe.')
@@ -131,7 +131,7 @@ def registro():
     talk('Di tu nombre.')
     nombre = audio_to_text().lower()
     talk('Di tu contraseña.')
-    contrasenia = audio_to_text().lower()
+    contrasenia = audio_to_text().lower().replace(' ', '')
 
     while True:
         # Quitamos los espacios de todos lados por si da error
@@ -186,9 +186,9 @@ def requests():
     crearCarpetaImagenes()
     reconocido = False
     stop = False
-    #talk("Iniciando el sistema de reconocimiento a la clase de DAM. "
-      #   "Vamos a proceder a realizar un reconocimiento facial")
-    #talk("Para iniciar el sistema di: buenos dias princesa. Para salir: salir del programa")
+    talk("Iniciando el sistema de reconocimiento a la clase de DAM. "
+         "Vamos a proceder a realizar un reconocimiento facial")
+    talk("Para iniciar el sistema di: buenos dias princesa. Para salir: salir del programa")
     while not stop:
         # Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
@@ -209,7 +209,7 @@ def requests():
             salir()
         if 'borrar usuario' in request:
             talk('Proporciona tu contraseña.')
-            contra = audio_to_text()
+            contra = audio_to_text().lower()
             while True:
                 # Quitamos los espacios de todos lados por si da error
                 telefono = deletrearNumero().replace(' ', '').split()
