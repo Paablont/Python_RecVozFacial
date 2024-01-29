@@ -71,9 +71,10 @@ def borrar(telefono, contrasenia):
                 if usuario['telefono'] == telefono and usuario['contrasenia'] == contrasenia:
                     # No añadimos a la lista aquellos que coinciden con el telefono y contraseña
                     borrarImagenUsuario(telefono)
-                    talk(f'Usuario con número de teléfono {telefono} eliminado correctamente.')
+                    talk(f'Usuario con número de teléfono {telefono} eliminado correctamente. Volviendo al menú...')
+                    requests()
                 else:
-                    talk(f'Contraseña o numero de telefono invalido. Volviendo al menu...')
+                    talk(f'Contraseña o numero de teléfono inválido. Volviendo al menú...')
                     usuariosCambiar.append(usuario)
                     requests()
 
@@ -193,7 +194,6 @@ def requests():
         # Activar el micro y guardar la request en un string
         request = audio_to_text().lower()
         if 'buenos días princesa' in request:
-
             echarFotoComprobar()
             listaImagenes = imagenesAlista("imagenes")
             if len(listaImagenes) != 0:
