@@ -59,7 +59,7 @@ def print_voices():
         print(voz.id, voz)
 
 #Metodo para borrar un usuario del JSON
-def borrar(telefono):
+def borrar(telefono,contrasenia):
     Usuarios = 'Usuarios.json'
 
     if os.path.exists(Usuarios):
@@ -69,7 +69,7 @@ def borrar(telefono):
 
             # Eliminamos por numero de telefono
             for usuario in datosExiste['Usuarios']:
-                if usuario['telefono'] != telefono:
+                if usuario['telefono'] != telefono and usuario['contrasenia'] != contrasenia:
                     usuariosCambiar.append(usuario)
 
             # Actualizamos la lista de usuarios
@@ -128,9 +128,10 @@ def salir():
 #Metodo para registrar nuevo usuario (Comprueba si el numero de telef ya existe o no)
 def registro():
     Usuarios = 'Usuarios.json'
-    talk('Di tu nombre')
+    talk('Di tu nombre.')
     nombre = audio_to_text().lower()
-    print(nombre)
+    talk('Di tu contraseña.')
+    contrasenia = audio_to_text().lower()
 
     while True:
         # Quitamos los espacios de todos lados por si da error
@@ -155,7 +156,8 @@ def registro():
 # Crear un diccionario con la información para añadirlo a un fichero JSON
     usuario = {
         'nombre': nombre,
-        'telefono': telefonoNumero
+        'telefono': telefonoNumero,
+        'contrasenia': contrasenia
     }
 
     if os.path.exists(Usuarios):
@@ -206,15 +208,16 @@ def requests():
             borrarImagen()
             salir()
         if 'borrar usuario' in request:
+            talk('Proporciona tu contraseña.')
+            contra = audio_to_text()
             while True:
                 # Quitamos los espacios de todos lados por si da error
                 telefono = deletrearNumero().replace(' ', '').split()
-                print(telefono)
+
                 try:
                     # Para pasar de String [] a un int
                     telefonoNumero = int(''.join(telefono))
-                    #telefonoNumero = int(''.join(telefono))
-                    borrar(telefonoNumero)
+                    borrar(telefonoNumero, contra)
                     break
                 except ValueError:
                     talk('El número de teléfono contiene letras. Por favor, repítelo.')
